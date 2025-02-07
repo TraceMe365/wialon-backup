@@ -74,6 +74,7 @@ class WialonBackup extends Controller
         }
     }
 
+
     public function download(){
         $sid      = $this->getSid();
         $vehicles = $this->getIds();
@@ -82,6 +83,8 @@ class WialonBackup extends Controller
                 $filename = $veh['nm'] . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
                 $files = scandir(__DIR__ . "/downloads/");
+                print_r($files);
+                die();
                 // if(!file_exists($save_path)){
                 if(!in_array($filename, $files)){
                     $curr = time();
