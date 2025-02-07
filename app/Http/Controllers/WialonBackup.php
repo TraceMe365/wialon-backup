@@ -86,25 +86,20 @@ class WialonBackup extends Controller
                         "compress"  => 1
                     ])) . "&sid=".$sid;
         
-                    $fp = fopen($save_path, 'w'); // Open file for writing
-
                     $ch = curl_init();
+        
                     curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_FILE, $fp); // Write directly to file
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_HEADER, 0);
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_TIMEOUT, 300); // Increase timeout for large files
                     
-                    $success = curl_exec($ch);
+                    $response = curl_exec($ch);
                     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     curl_close($ch);
-                    fclose($fp);
-
-                    if ($http_code == 200 && $success) {
-                        file_put_contents($save_path, $success);
+                    if ($http_code == 200 && $response) {
+                        file_put_contents($save_path, $response);
                         echo "Success ".$veh['nm'];
-                        die();
                     } else {
                         die("Failed to download the file.");
                     }
