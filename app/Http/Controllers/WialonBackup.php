@@ -78,11 +78,11 @@ class WialonBackup extends Controller
     public function download(){
         $sid      = $this->getSid();
         $vehicles = $this->getIds();
+        $files = scandir(__DIR__ . "/downloads/");
         foreach($vehicles as $veh){
             try {
                 $filename = $veh['nm'] . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
-                $files = scandir(__DIR__ . "/downloads/");
                 // if(!file_exists($save_path)){
                 if(!in_array($filename, $files)){
                     $curr = time();
