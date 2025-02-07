@@ -138,7 +138,6 @@ class WialonBackup extends Controller
                 } else {
                     die("Failed to download the file.");
                 }
-                die();
             } catch (Exception $th) {
                 echo $th->getMessage();
             }
