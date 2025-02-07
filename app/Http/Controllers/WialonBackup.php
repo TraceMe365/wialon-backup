@@ -10,7 +10,7 @@ class WialonBackup extends Controller
     protected $token    = "01b9f13200bb9d799a94cf73247a2c4bDBDB5172FB18A7EAD946CA8A1C94CC38D1293CDB";
     protected $sid      = "";
     public function __construct(){
-        ini_set ( 'max_execution_time', 3600); // 1 hour
+        ini_set ( 'max_execution_time', 43200); // 12 hours
         ini_set('memory_limit', '1G');
     }
 
