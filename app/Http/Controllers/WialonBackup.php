@@ -83,8 +83,6 @@ class WialonBackup extends Controller
                 $filename = $veh['nm'] . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
                 $files = scandir(__DIR__ . "/downloads/");
-                print_r($files);
-                die();
                 // if(!file_exists($save_path)){
                 if(!in_array($filename, $files)){
                     $curr = time();
@@ -112,7 +110,6 @@ class WialonBackup extends Controller
                     if ($http_code == 200 && $response) {
                         file_put_contents($save_path, $response);
                         echo "Success ".$veh['nm'];
-                        die();
                     } else {
                         die("Failed to download the file.");
                     }
