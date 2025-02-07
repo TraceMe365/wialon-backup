@@ -73,12 +73,13 @@ class WialonBackup extends Controller
         $vehicles = $this->getIds();
         foreach($vehicles as $veh){
             try {
+                sleep(1);
                 $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
                     "layerName" => "",
                     "format"    => "wln",
                     "itemId"    => $veh['id'],
-                    "timeFrom"  => 1761953200,
-                    "timeTo"    => 1761955200,
+                    "timeFrom"  => 1730399400,
+                    "timeTo"    => 1738898864,
                     "compress"  => 1
                 ])) . "&sid=".$sid;
     
