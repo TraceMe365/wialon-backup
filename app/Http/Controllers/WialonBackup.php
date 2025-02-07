@@ -14,6 +14,11 @@ class WialonBackup extends Controller
         ini_set('memory_limit', '1G');
     }
 
+    public function test(){
+        echo "Hi";
+        die();
+    }
+
     public function getSid(){
         try {
             $curl = curl_init();
@@ -102,6 +107,7 @@ class WialonBackup extends Controller
                     if ($http_code == 200 && $response) {
                         file_put_contents($save_path, $response);
                         echo "Success ".$veh['nm'];
+                        die();
                     } else {
                         die("Failed to download the file.");
                     }
