@@ -19,4 +19,4 @@ Route::get('/', function () {
 });
 
 Route::get('/download', [WialonBackup::class, 'download']);
-Route::get('/test', [Wialoaction: nBackup::class, 'test']);
+Route::get('/test', [WialonBackup::class, 'test']);
