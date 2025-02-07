@@ -77,13 +77,14 @@ class WialonBackup extends Controller
                 $filename = $veh['nm'] . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
                 if(!file_exists($save_path)){
+                    $curr = time();
                     sleep(1);
                     $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
                         "layerName" => "",
                         "format"    => "wln",
                         "itemId"    => $veh['id'],
                         "timeFrom"  => 1730399400,
-                        "timeTo"    => 1738898864,
+                        "timeTo"    => $curr,
                         "compress"  => 1
                     ])) . "&sid=".$sid;
         
