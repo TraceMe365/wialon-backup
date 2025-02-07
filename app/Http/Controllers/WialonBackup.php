@@ -96,8 +96,6 @@ class WialonBackup extends Controller
                 if ($http_code == 200 && $response) {
                     $filename = $veh['nm'] . "_data.zip";
                     $save_path = __DIR__ . "/downloads/" . $filename;
-                    print_r($save_path);
-                    die();
                     if (!is_dir(__DIR__ . "/downloads")) {
                         mkdir(__DIR__ . "/downloads", 0777, true);
                     }
