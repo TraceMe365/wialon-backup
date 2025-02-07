@@ -13,6 +13,7 @@ class WialonBackup extends Controller
     public function __construct(){
         ini_set ( 'max_execution_time', 43200); // 12 hours
         ini_set('memory_limit', '1G');
+        $this->checkFiles();
     }
 
     public function test(){
