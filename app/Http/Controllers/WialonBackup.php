@@ -73,37 +73,36 @@ class WialonBackup extends Controller
         $vehicles = $this->getIds();
         foreach($vehicles as $veh){
             try {
-                sleep(1);
-                $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
-                    "layerName" => "",
-                    "format"    => "wln",
-                    "itemId"    => $veh['id'],
-                    "timeFrom"  => 1730399400,
-                    "timeTo"    => 1738898864,
-                    "compress"  => 1
-                ])) . "&sid=".$sid;
-    
-                $ch = curl_init();
-    
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                
-                $response = curl_exec($ch);
-                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close($ch);
-                if ($http_code == 200 && $response) {
-                    $filename = $veh['nm'] . "_data.zip";
-                    $save_path = __DIR__ . "/downloads/" . $filename;
-                    if (!is_dir(__DIR__ . "/downloads")) {
-                        mkdir(__DIR__ . "/downloads", 0777, true);
+                $filename = $veh['nm'] . "_data.zip";
+                $save_path = __DIR__ . "/downloads/" . $filename;
+                if(!file_exists($save_path)){
+                    sleep(1);
+                    $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
+                        "layerName" => "",
+                        "format"    => "wln",
+                        "itemId"    => $veh['id'],
+                        "timeFrom"  => 1730399400,
+                        "timeTo"    => 1738898864,
+                        "compress"  => 1
+                    ])) . "&sid=".$sid;
+        
+                    $ch = curl_init();
+        
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_HEADER, 0);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    
+                    $response = curl_exec($ch);
+                    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    curl_close($ch);
+                    if ($http_code == 200 && $response) {
+                        file_put_contents($save_path, $response);
+                        echo "Success ".$veh['nm'];
+                    } else {
+                        die("Failed to download the file.");
                     }
-                    file_put_contents($save_path, $response);
-                    echo "Success ".$veh['nm'];
-                } else {
-                    die("Failed to download the file.");
                 }
             } catch (Exception $th) {
                 echo $th->getMessage();
