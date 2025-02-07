@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class WialonUnit extends Model
 {
     use HasFactory;
+
+    protected $table = 'wialon_units';
+
+    protected $fillable = [
+        'unit_id',
+        'unit_name',
+        'status'
+    ];
+    
 }

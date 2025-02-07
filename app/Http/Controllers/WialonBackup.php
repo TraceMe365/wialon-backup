@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WialonUnit;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -74,11 +75,35 @@ class WialonBackup extends Controller
         }
     }
 
+    public function addIds(){
+        $sid      = $this->getSid();
+        $vehicles = $this->getIds();
+        foreach($vehicles as $vehicle){
+            WialonUnit::firstOrCreate(
+                ['unit_id' => $vehicle['id']], // Search condition
+                [
+                    'unit_name' => $vehicle['nm'],
+                    'status'    => 'NO'
+                ]
+            );           
+        }
+    }
+
+    public function checkFiles(){
+        $files = scandir(__DIR__ . "/downloads/");
+        $units = WialonUnit::all();
+        foreach ($units as $unit) {
+            if (in_array($unit->unit_name . '_data.zip', $files)) {
+                $unit->status = 'YES';
+                $unit->save();
+            }
+        }
+        
+    }
 
     public function download(){
         $sid      = $this->getSid();
         $vehicles = $this->getIds();
-        $files = scandir(__DIR__ . "/downloads/");
         foreach($vehicles as $veh){
             try {
                 $filename = $veh['nm'] . "_data.zip";

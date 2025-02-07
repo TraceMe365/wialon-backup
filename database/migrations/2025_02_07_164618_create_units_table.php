@@ -15,8 +15,9 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('wialon_units', function (Blueprint $table) {
             $table->id();
-            $table->string('unit_name');
-            $table->string('status');
+            $table->string('unit_id');
+            $table->string('unit_name')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

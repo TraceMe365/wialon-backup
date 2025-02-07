@@ -20,3 +20,5 @@ Route::get('/', function () {
 
 Route::get('/download', [WialonBackup::class, 'download']);
 Route::get('/test', [WialonBackup::class, 'test']);
+Route::get('/add', [WialonBackup::class, 'addIds']);
+Route::get('/checkFiles', [WialonBackup::class, 'checkFiles']);
