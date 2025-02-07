@@ -104,6 +104,7 @@ class WialonBackup extends Controller
                     if ($http_code == 200 && $success) {
                         file_put_contents($save_path, $success);
                         echo "Success ".$veh['nm'];
+                        die();
                     } else {
                         die("Failed to download the file.");
                     }
