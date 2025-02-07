@@ -81,7 +81,9 @@ class WialonBackup extends Controller
             try {
                 $filename = $veh['nm'] . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
-                if(!file_exists($save_path)){
+                $files = scandir(__DIR__ . "/downloads/");
+                // if(!file_exists($save_path)){
+                if(!in_array($filename, $files)){
                     $curr = time();
                     sleep(1);
                     $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
