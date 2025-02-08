@@ -13,7 +13,7 @@ class WialonBackup extends Controller
     public function __construct(){
         ini_set ( 'max_execution_time', 43200); // 12 hours
         ini_set('memory_limit', '1G');
-        $this->checkFiles();
+        // $this->checkFiles();
     }
 
     public function test(){
@@ -94,7 +94,7 @@ class WialonBackup extends Controller
         $files = scandir(__DIR__ . "/downloads/");
         $units = WialonUnit::all();
         foreach ($units as $unit) {
-            if (in_array($unit->unit_name . '_data.zip', $files)) {
+            if (in_array(str_replace(['/', '\\'], '_', $unit->unit_name) . '_data.zip', $files)) {
                 $unit->status = 'YES';
                 $unit->save();
             }
@@ -104,13 +104,15 @@ class WialonBackup extends Controller
 
     public function download(){
         $sid      = $this->getSid();
+        $this->checkFiles();
         $vehicles = WialonUnit::where("status","NO")->get();
         foreach($vehicles as $veh){
             try {
-                $filename = $veh->unit_name . "_data.zip";
+                // $filename = $veh->unit_name . "_data.zip";
+                $filename = str_replace(['/', '\\'], '_', $veh->unit_name) . "_data.zip";
                 $save_path = __DIR__ . "/downloads/" . $filename;
                 $curr = time();
-                sleep(1);
+                usleep(500);
                 $url = "https://hst-api.wialon.com/wialon/ajax.html?svc=exchange/export_messages&params=" . urlencode(json_encode([
                     "layerName" => "",
                     "format"    => "wln",
@@ -131,7 +133,7 @@ class WialonBackup extends Controller
                 $response = curl_exec($ch);
                 $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
-                if ($http_code == 200 && $response) {
+                if ($http_code == 200) {
                     file_put_contents($save_path, $response);
                     $veh->status = 'YES';
                     $veh->save();
